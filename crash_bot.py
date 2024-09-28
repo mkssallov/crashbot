@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import numpy as np
+import statistics
 
 class CrashPredictor:
     def __init__(self, url):
@@ -25,8 +25,8 @@ class CrashPredictor:
             return None, 0  # Невозможно предсказать
 
         last_five = self.coefficients[-5:]
-        prediction = np.mean(last_five)  # Предсказание на основе последних 5 коэффициентов
-        accuracy = np.std(last_five) / prediction if prediction != 0 else 0  # Оценка точности
+        prediction = sum(last_five) / len(last_five)  # Среднее значение
+        accuracy = statistics.stdev(last_five) / prediction if prediction != 0 else 0  # Оценка точности
         return prediction, accuracy
 
     def display_prediction(self):
